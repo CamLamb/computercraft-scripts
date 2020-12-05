@@ -2,12 +2,13 @@
 peripheral.find("modem", rednet.open)
 
 -- Request update
-local url = ""
+rednet.broadcast("get_turtle_link")
+local sender_id, message, protocol = rednet.receive()
 
 -- Update API
-if url then
-    local download_contents = http.get(url)
-    local file = fs.open("turtle_run.lua","w")
+if message then
+    local download_contents = http.get(umessagerl)
+    local file = fs.open("turtle_run.lua","message")
     file.write(download_contents.readAll())
     file.close()
 end
