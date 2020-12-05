@@ -7,7 +7,8 @@ local github_path = "jafacakes2011/computercraft-scripts"
 local github_branch = "main"
 
 local downloads = {
-    turtle="smart/scripts/turtle_run.lua"
+    turtle="smart/scripts/turtle_run.lua",
+    dispatcher="smart/scripts/dispatcher_run.lua",
 }
 
 function GetDownloadLink(type)
@@ -16,7 +17,8 @@ end
 
 -- Define commands
 local commands = {
-    get_turtle_link=GetDownloadLink("turtle")
+    get_turtle_link=GetDownloadLink("turtle"),
+    get_dispatcher_link=GetDownloadLink("dispatcher"),
 }
 
 -- Start listening to rednet for commands
