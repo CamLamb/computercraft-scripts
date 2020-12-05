@@ -8,7 +8,7 @@ local sender_id, message, protocol = rednet.receive()
 -- Update API
 if message then
     local download_contents = http.get(message)
-    local file = fs.open("dispatcher_run.lua","message")
+    local file = fs.open("dispatcher_run.lua","w")
     file.write(download_contents.readAll())
     file.close()
 end
