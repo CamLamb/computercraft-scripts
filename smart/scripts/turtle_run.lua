@@ -8,21 +8,25 @@ function GetCurrentDirection()
     turtle.forward()
     local new_pos = vector.new(gps.locate())
     local position_difference = new_pos - current_pos
+    local heading = ""
 
     if position_difference.x ~= 0 then
         if position_difference.x > 0 then
-            return "east"
+            heading = "east"
         elseif position_difference.x < 0 then
-            return "west"
+            heading = "west"
         end
     end
     if position_difference.y ~= 0 then
         if position_difference.y > 0 then
-            return "south"
+            heading = "south"
         elseif position_difference.y < 0 then
-            return "north"
+            heading = "north"
         end
     end
+
+    turtle.back()
+    return heading
 end
 
 function RotateTo(heading)
