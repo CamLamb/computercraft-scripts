@@ -305,12 +305,12 @@ function Excavate(table)
             end
             if (i % 2 == 0) then
                 turtle.turnRight()
-                Dig()
+                Dig("forward")
                 turtle.forward()
                 turtle.turnRight()
             else
                 turtle.turnLeft()
-                Dig()
+                Dig("forward")
                 turtle.forward()
                 turtle.turnLeft()
             end
