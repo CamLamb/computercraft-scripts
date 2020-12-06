@@ -218,9 +218,13 @@ function Die()
     rednet.broadcast("kill_turtle")
 end
 
+function NavigateToCommand(table)
+    return NavigateTo(table[1], table[2], table[3])
+end
+
 -- Define commands
 local commands = {
-    navigate_to=NavigateTo,
+    navigate_to=NavigateToCommand,
 }
 
 -- Startup script
@@ -248,7 +252,6 @@ table.remove(message_sections, 1)
 if command ~= nil then
     command(message_sections)
 end
-
 
 -- Go to death
 Die()
