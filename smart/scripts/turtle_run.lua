@@ -1,3 +1,5 @@
+local check_inv_and_fuel = true
+
 -- Define functions
 
 function InventoryFull()
@@ -8,7 +10,7 @@ function InventoryFull()
             break
         end
     end
-    return has_space
+    return not has_space
 end
 
 function BaseAndReturn()
@@ -28,8 +30,10 @@ function Dig(direction)
     local current_pos = vector.new(gps.locate())
     -- Check inventory
     -- or turtle.getFuelLevel() < 1000
-    if InventoryFull() then
+    if check_inv_and_fuel and (InventoryFull()) then
+        check_inv_and_fuel = false
         BaseAndReturn()
+        check_inv_and_fuel = true
     end
     if current_pos.x < -1060 then
         if direction == "forward" then
