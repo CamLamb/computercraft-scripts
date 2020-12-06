@@ -219,12 +219,18 @@ function Die()
 end
 
 function NavigateToCommand(table)
-    return NavigateTo(table[1], table[2], table[3])
+    NavigateTo(table[1], table[2], table[3])
+end
+
+function Excavate(table)
+    NavigateTo(table[3], table[4], table[5])
+    shell.run("excavate", table[1], table[1], table[2])
 end
 
 -- Define commands
 local commands = {
     navigate_to=NavigateToCommand,
+    excavate=Excavate
 }
 
 -- Startup script
