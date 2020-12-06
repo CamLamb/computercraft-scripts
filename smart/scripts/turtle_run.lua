@@ -296,8 +296,8 @@ function NavigateToCommand(table)
 end
 
 function Excavate(table)
+    NavigateTo(table[2], table[3], table[4])
     while true do
-        NavigateTo(table[2], table[3], table[4])
         for i = 1, table[1], 1 do
             for ii = 1, table[1], 1 do
                 Dig("forward")
@@ -315,6 +315,13 @@ function Excavate(table)
                 turtle.turnLeft()
             end
         end
+
+        -- If we are below height 3 then finish the job
+        local current_pos = vector.new(gps.locate())
+        if current_pos.z < 3 then
+            break
+        end
+
         turtle.turnLeft()
         turtle.turnLeft()
         Dig("down")
