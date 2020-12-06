@@ -27,9 +27,9 @@ end
 function Dig(direction)
     local current_pos = vector.new(gps.locate())
     -- Check inventory
-    if InventoryFull() or turtle.getFuelLevel() < 1000 then
-        BaseAndReturn()
-    end
+    -- if InventoryFull() or turtle.getFuelLevel() < 1000 then
+    --     BaseAndReturn()
+    -- end
     if current_pos.x < -1060 then
         if direction == "forward" then
             turtle.dig()
@@ -44,7 +44,7 @@ end
 function NavigateTo(x, y, z)
     -- Rotate to point North
     local current_pos = vector.new(gps.locate())
-    -- Dig("forward")
+    Dig("forward")
     turtle.forward()
     local new_pos = vector.new(gps.locate())
     local position_difference = new_pos - current_pos
@@ -192,61 +192,61 @@ function LeaveBase()
 end
 
 function GoHome()
-    -- -- Go to the Turtle return layer
+    -- Go to the Turtle return layer
     local current_pos = vector.new(gps.locate())
     NavigateTo(current_pos.x, current_pos.y, 61)
 
-    -- -- Navigate to base entrance
-    -- NavigateTo(-1060, 515, 61)
-    -- turtle.turnRight()
+    -- Navigate to base entrance
+    NavigateTo(-1060, 515, 61)
+    turtle.turnRight()
 
-    -- -- Enter base
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
+    -- Enter base
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
 
-    -- -- Empty inventory
-    -- turtle.drop(1)
-    -- turtle.drop(2)
-    -- turtle.drop(3)
-    -- turtle.drop(4)
-    -- turtle.drop(5)
-    -- turtle.drop(6)
-    -- turtle.drop(7)
-    -- turtle.drop(8)
-    -- turtle.drop(9)
-    -- turtle.drop(10)
-    -- turtle.drop(11)
-    -- turtle.drop(12)
-    -- turtle.drop(13)
-    -- turtle.drop(14)
-    -- turtle.drop(15)
-    -- turtle.drop(16)
+    -- Empty inventory
+    turtle.drop(1)
+    turtle.drop(2)
+    turtle.drop(3)
+    turtle.drop(4)
+    turtle.drop(5)
+    turtle.drop(6)
+    turtle.drop(7)
+    turtle.drop(8)
+    turtle.drop(9)
+    turtle.drop(10)
+    turtle.drop(11)
+    turtle.drop(12)
+    turtle.drop(13)
+    turtle.drop(14)
+    turtle.drop(15)
+    turtle.drop(16)
 end
 
 function Die()
