@@ -297,22 +297,31 @@ end
 
 function Excavate(table)
     NavigateTo(table[2], table[3], table[4])
+
     while true do
         for i = 1, table[1], 1 do
             for ii = 1, table[1], 1 do
-                Dig("forward")
-                turtle.forward()
+                if ii ~= table[1] then
+                    Dig("forward")
+                    turtle.forward()
+                end
             end
-            if (i % 2 == 0) then
-                turtle.turnRight()
-                Dig("forward")
-                turtle.forward()
-                turtle.turnRight()
+            if i ~= table[1] then
+                if (i % 2 == 0) then
+                    turtle.turnRight()
+                    Dig("forward")
+                    turtle.forward()
+                    turtle.turnRight()
+                else
+                    turtle.turnLeft()
+                    Dig("forward")
+                    turtle.forward()
+                    turtle.turnLeft()
+                end
             else
                 turtle.turnLeft()
-                Dig("forward")
-                turtle.forward()
-                turtle.turnLeft()
+                Dig("down")
+                turtle.down()
             end
         end
 
@@ -321,11 +330,6 @@ function Excavate(table)
         if current_pos.z < 3 then
             break
         end
-
-        turtle.turnLeft()
-        turtle.turnLeft()
-        Dig("down")
-        turtle.down()
     end
     
     shell.run("excavate", table[1])
