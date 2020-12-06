@@ -223,14 +223,14 @@ function NavigateToCommand(table)
 end
 
 function Excavate(table)
-    NavigateTo(table[3], table[4], table[5])
-    shell.run("excavate", table[1], table[1], table[2])
+    NavigateTo(table[2], table[3], table[4])
+    shell.run("excavate", table[1])
 end
 
 -- Define commands
 local commands = {
     navigate_to=NavigateToCommand,
-    excavate=Excavate
+    excavate=Excavate,
 }
 
 -- Startup script
