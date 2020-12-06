@@ -354,5 +354,4 @@ local commands = {
 -- -- Go to death
 -- Die()
 
-
-RotateTo("north")
+GoHome()
