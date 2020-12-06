@@ -331,8 +331,6 @@ function Excavate(table)
             break
         end
     end
-    
-    shell.run("excavate", table[1])
 end
 
 -- Define commands
