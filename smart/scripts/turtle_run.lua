@@ -2,6 +2,69 @@ local check_inv_and_fuel = true
 
 -- Define functions
 
+function GetCurrentDirection()
+    local current_pos = vector.new(gps.locate())
+    Dig("forward")
+    turtle.forward()
+    local new_pos = vector.new(gps.locate())
+    local position_difference = new_pos - current_pos
+
+    if position_difference.x ~= 0 then
+        if position_difference.x > 0 then
+            return "east"
+        elseif position_difference.x < 0 then
+            return "west"
+        end
+    end
+    if position_difference.y ~= 0 then
+        if position_difference.y > 0 then
+            return "south"
+        elseif position_difference.y < 0 then
+            return "north"
+        end
+    end
+end
+
+function RotateTo(heading)
+    local current_heading = GetCurrentDirection()
+    if heading == "north" then
+        if current_heading == "east" then
+            turtle.turnLeft()
+        elseif current_heading == "west" then
+            turtle.turnRight()
+        elseif current_heading == "south" then
+            turtle.turnLeft()
+            turtle.turnLeft()
+        end
+    elseif heading == "east" then
+        if current_heading == "north" then
+            turtle.turnRight()
+        elseif current_heading == "west" then
+            turtle.turnRight()
+            turtle.turnRight()
+        elseif current_heading == "south" then
+            turtle.turnLeft()
+        end
+    elseif heading == "south" then
+        if current_heading == "north" then
+            turtle.turnRight()
+            turtle.turnRight()
+        elseif current_heading == "west" then
+            turtle.turnLeft()
+        elseif current_heading == "east" then
+            turtle.turnRight()
+        end
+    elseif heading == "west" then
+        if current_heading == "north" then
+            turtle.turnLeft()
+        elseif current_heading == "south" then
+            turtle.turnLeft()
+        elseif current_heading == "east" then
+            turtle.turnRight()
+        end
+    end
+end
+
 function InventoryFull()
     local has_space = false
     for i = 1, 16, 1 do
@@ -15,6 +78,7 @@ end
 
 function BaseAndReturn()
     local current_pos = vector.new(gps.locate())
+    local current_heading = GetCurrentDirection()
     GoHome()
     -- Return to start position
     turtle.turnRight()
@@ -24,6 +88,7 @@ function BaseAndReturn()
     LeaveBase()
     -- Return to previous spot
     NavigateTo(current_pos.x, current_pos.y, current_pos.z)
+    RotateTo(current_heading)
 end
 
 function Dig(direction)
@@ -48,45 +113,21 @@ end
 
 function NavigateTo(x, y, z)
     -- Rotate to point North
-    local current_pos = vector.new(gps.locate())
-    Dig("forward")
-    turtle.forward()
-    local new_pos = vector.new(gps.locate())
-    local position_difference = new_pos - current_pos
-
-    if position_difference.x ~= 0 then
-        if position_difference.x > 0 then
-            turtle.turnLeft()
-        elseif position_difference.x < 0 then
-            turtle.turnRight()
-        end
-    end
-    if position_difference.y ~= 0 then
-        if position_difference.y > 0 then
-            turtle.turnLeft()
-            turtle.turnLeft()
-        elseif position_difference.y < 0 then
-        end
-    end
+    RotateTo("north")
 
     -- Route to new location
     local end_pos = vector.new(x, y, z)
     local position_difference = end_pos - new_pos
 
-    -- Note how many left turns to face north
-    local turn_left = 0
-
-    if position_difference.x > 0 then
-        -- Face East
-        turtle.turnRight()
-        turn_left = 1
-    elseif position_difference.x < 0 then
-        -- Face West
-        turtle.turnLeft()
-        turn_left = 3
-    end
 
     -- Navigate East/West
+    if position_difference.x > 0 then
+        -- Face East
+        RotateTo("east")
+    elseif position_difference.x < 0 then
+        -- Face West
+        RotateTo("west")
+    end
     local x_move = position_difference.x
     while x_move ~= 0 do
         if turtle.detect() then
@@ -102,27 +143,16 @@ function NavigateTo(x, y, z)
         end
     end
 
-    while turn_left ~= 0 do
-        turtle.turnLeft()
-        turn_left = turn_left - 1
-    end
-
-    -- Note how many left turns to face north
-    local turn_left = 0
-
+    -- Navigate North/South
     if position_difference.y ~= 0 then
         if position_difference.y > 0 then
             -- Facing South
-            turtle.turnLeft()
-            turtle.turnLeft()
-            turn_left = 2
+            RotateTo("south")
         elseif position_difference.y < 0 then
             -- Facing North
+            RotateTo("north")
         end
     end
-
-
-    -- Navigate North/South
     local y_move = position_difference.y
     while y_move ~= 0 do
         if turtle.detect() then
@@ -138,12 +168,8 @@ function NavigateTo(x, y, z)
         end
     end
 
-    while turn_left ~= 0 do
-        turtle.turnLeft()
-        turn_left = turn_left - 1
-    end
 
-    -- Navigate North/South
+    -- Navigate Up/Down
     local z_move = position_difference.z
     while z_move ~= 0 do
         if z_move < 0 then
@@ -160,6 +186,8 @@ function NavigateTo(x, y, z)
             z_move = z_move - 1
         end
     end
+
+    RotateTo("north")
 end
 
 function LeaveBase()
@@ -203,7 +231,7 @@ function GoHome()
 
     -- Navigate to base entrance
     NavigateTo(-1060, 515, 61)
-    turtle.turnRight()
+    RotateTo("east")
 
     -- Enter base
     turtle.up()
