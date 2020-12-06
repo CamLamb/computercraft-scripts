@@ -3,10 +3,10 @@
 function InventoryFull()
     local has_space = false
     for i = 1, 16, 1 do
-        if turtle.getItemCount(i) == 0 then
-            has_space = true
-            break
-        end
+        -- if turtle.getItemCount(i) == 0 then
+        --     has_space = true
+        --     break
+        -- end
     end
     return has_space
 end
@@ -27,9 +27,9 @@ end
 function Dig(direction)
     local current_pos = vector.new(gps.locate())
     -- Check inventory
-    -- if InventoryFull() or turtle.getFuelLevel() < 1000 then
-    --     BaseAndReturn()
-    -- end
+    if InventoryFull() or turtle.getFuelLevel() < 1000 then
+        BaseAndReturn()
+    end
     if current_pos.x < -1060 then
         if direction == "forward" then
             turtle.dig()
