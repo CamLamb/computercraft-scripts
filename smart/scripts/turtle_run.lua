@@ -44,7 +44,7 @@ end
 function NavigateTo(x, y, z)
     -- Rotate to point North
     local current_pos = vector.new(gps.locate())
-    Dig("forward")
+    -- Dig("forward")
     turtle.forward()
     local new_pos = vector.new(gps.locate())
     local position_difference = new_pos - current_pos
@@ -193,8 +193,8 @@ end
 
 function GoHome()
     -- -- Go to the Turtle return layer
-    -- local current_pos = vector.new(gps.locate())
-    -- NavigateTo(current_pos.x, current_pos.y, 61)
+    local current_pos = vector.new(gps.locate())
+    NavigateTo(current_pos.x, current_pos.y, 61)
 
     -- -- Navigate to base entrance
     -- NavigateTo(-1060, 515, 61)
