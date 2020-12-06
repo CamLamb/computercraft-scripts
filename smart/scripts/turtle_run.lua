@@ -218,6 +218,7 @@ end
 -- Startup script
 
 -- Get fuel
+turtle.suckDown()
 if turtle.getFuelLevel() < 1000 then
     turtle.refuel()
 end
