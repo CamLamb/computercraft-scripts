@@ -120,9 +120,9 @@ function NavigateTo(x, y, z)
     RotateTo("north")
 
     -- Route to new location
+    local current_pos = vector.new(gps.locate())
     local end_pos = vector.new(x, y, z)
-    local position_difference = end_pos - new_pos
-
+    local position_difference = end_pos - current_pos
 
     -- Navigate East/West
     if position_difference.x > 0 then
