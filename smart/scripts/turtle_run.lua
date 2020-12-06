@@ -326,10 +326,10 @@ function Excavate(table)
         end
 
         -- If we are below height 3 then finish the job
-        local current_pos = vector.new(gps.locate())
-        if current_pos.z < 3 then
-            break
-        end
+        -- local current_pos = vector.new(gps.locate())
+        -- if current_pos.z < 3 then
+        break
+        -- end
     end
     
     shell.run("excavate", table[1])
