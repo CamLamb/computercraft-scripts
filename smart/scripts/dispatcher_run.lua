@@ -40,8 +40,8 @@ end
 
 -- Define commands
 local commands = {
-    dispatch_turtle=DispatchTurtle(),
-    kill_turtle=KillTurtle(),
+    dispatch_turtle=DispatchTurtle,
+    kill_turtle=KillTurtle,
 }
 
 -- Start listening to rednet for commands
@@ -50,6 +50,6 @@ while true do
     local sender_id, message, protocol = rednet.receive()
 
     if commands[message] ~= nil then
-        rednet.send(sender_id, commands[message])
+        rednet.send(sender_id, commands[message]())
     end
 end
