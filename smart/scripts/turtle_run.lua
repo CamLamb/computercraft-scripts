@@ -1,22 +1,50 @@
 -- Define functions
 
-function NavigateTo(x, y, z)
-    function dig(direction)
-        local current_pos = vector.new(gps.locate())
-        if current_pos.x < -1060 then
-            if direction == "forward" then
-                turtle.dig()
-            elseif direction == "up" then
-                turtle.digUp()
-            elseif direction == "down" then
-                turtle.digDown()
-            end
+function InventoryFull()
+    local has_space = false
+    for i = 1, 16, 1 do
+        if turtle.getItemCount(i) == 0 then
+            has_space = true
+            break
         end
     end
+    return has_space
+end
 
+function BaseAndReturn()
+    local current_pos = vector.new(gps.locate())
+    GoHome()
+    -- Return to start position
+    turtle.turnRight()
+    turtle.turnRight()
+    turtle.forward()
+    turtle.down()
+    LeaveBase()
+    -- Return to previous spot
+    NavigateTo(current_pos.x, current_pos.y, current_pos.z)
+end
+
+function Dig(direction)
+    local current_pos = vector.new(gps.locate())
+    -- Check inventory
+    if InventoryFull() or turtle.getFuelLevel() < 1000 then
+        BaseAndReturn()
+    end
+    if current_pos.x < -1060 then
+        if direction == "forward" then
+            turtle.dig()
+        elseif direction == "up" then
+            turtle.digUp()
+        elseif direction == "down" then
+            turtle.digDown()
+        end
+    end
+end
+
+function NavigateTo(x, y, z)
     -- Rotate to point North
     local current_pos = vector.new(gps.locate())
-    dig("forward")
+    Dig("forward")
     turtle.forward()
     local new_pos = vector.new(gps.locate())
     local position_difference = new_pos - current_pos
@@ -57,7 +85,7 @@ function NavigateTo(x, y, z)
     local x_move = position_difference.x
     while x_move ~= 0 do
         if turtle.detect() then
-            dig("forward")
+            Dig("forward")
         end
 
         turtle.forward()
@@ -93,7 +121,7 @@ function NavigateTo(x, y, z)
     local y_move = position_difference.y
     while y_move ~= 0 do
         if turtle.detect() then
-            dig("forward")
+            Dig("forward")
         end
 
         turtle.forward()
@@ -115,13 +143,13 @@ function NavigateTo(x, y, z)
     while z_move ~= 0 do
         if z_move < 0 then
             if turtle.detectDown() then
-                dig("down")
+                Dig("down")
             end
             turtle.down()
             z_move = z_move + 1
         else
             if turtle.detectUp() then
-                dig("up")
+                Dig("up")
             end
             turtle.up()
             z_move = z_move - 1
@@ -130,6 +158,12 @@ function NavigateTo(x, y, z)
 end
 
 function LeaveBase()
+    -- Get fuel
+    if turtle.getFuelLevel() < 1000 then
+        turtle.suckDown()
+        turtle.refuel()
+    end
+
     turtle.forward()
     turtle.forward()
     turtle.forward()
@@ -157,7 +191,7 @@ function LeaveBase()
     turtle.down()
 end
 
-function Die()
+function GoHome()
     -- Go to the Turtle return layer
     local current_pos = vector.new(gps.locate())
     NavigateTo(current_pos.x, current_pos.y, 61)
@@ -213,7 +247,10 @@ function Die()
     turtle.drop(14)
     turtle.drop(15)
     turtle.drop(16)
+end
 
+function Die()
+    GoHome()
     -- Request death
     rednet.broadcast("kill_turtle")
 end
@@ -223,7 +260,31 @@ function NavigateToCommand(table)
 end
 
 function Excavate(table)
-    NavigateTo(table[2], table[3], table[4])
+    while true do
+        NavigateTo(table[2], table[3], table[4])
+        for i = 1, table[1], 1 do
+            for ii = 1, table[1], 1 do
+                Dig("forward")
+                turtle.forward()
+            end
+            if (i % 2 == 0) then
+                turtle.turnRight()
+                Dig()
+                turtle.forward()
+                turtle.turnRight()
+            else
+                turtle.turnLeft()
+                Dig()
+                turtle.forward()
+                turtle.turnLeft()
+            end
+        end
+        turtle.turnLeft()
+        turtle.turnLeft()
+        Dig("down")
+        turtle.down()
+    end
+    
     shell.run("excavate", table[1])
 end
 
@@ -234,12 +295,6 @@ local commands = {
 }
 
 -- Startup script
-
--- Get fuel
-if turtle.getFuelLevel() < 1000 then
-    turtle.suckDown()
-    turtle.refuel()
-end
 
 -- Leave base
 LeaveBase()
