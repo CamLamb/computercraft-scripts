@@ -172,7 +172,6 @@ function NavigateTo(x, y, z)
         end
     end
 
-
     -- Navigate Up/Down
     local z_move = position_difference.z
     while z_move ~= 0 do
@@ -237,53 +236,53 @@ function GoHome()
     NavigateTo(-1060, 515, 61)
     RotateTo("east")
 
-    -- -- Enter base
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.up()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
-    -- turtle.forward()
+    -- Enter base
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.up()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
+    turtle.forward()
 
-    -- -- Empty inventory
-    -- turtle.drop(1)
-    -- turtle.drop(2)
-    -- turtle.drop(3)
-    -- turtle.drop(4)
-    -- turtle.drop(5)
-    -- turtle.drop(6)
-    -- turtle.drop(7)
-    -- turtle.drop(8)
-    -- turtle.drop(9)
-    -- turtle.drop(10)
-    -- turtle.drop(11)
-    -- turtle.drop(12)
-    -- turtle.drop(13)
-    -- turtle.drop(14)
-    -- turtle.drop(15)
-    -- turtle.drop(16)
+    -- Empty inventory
+    turtle.drop(1)
+    turtle.drop(2)
+    turtle.drop(3)
+    turtle.drop(4)
+    turtle.drop(5)
+    turtle.drop(6)
+    turtle.drop(7)
+    turtle.drop(8)
+    turtle.drop(9)
+    turtle.drop(10)
+    turtle.drop(11)
+    turtle.drop(12)
+    turtle.drop(13)
+    turtle.drop(14)
+    turtle.drop(15)
+    turtle.drop(16)
 end
 
 function Die()
@@ -334,24 +333,22 @@ local commands = {
 -- Startup script
 
 -- Leave base
--- LeaveBase()
+LeaveBase()
 
--- -- Wait for command
--- rednet.broadcast("turtle_waiting")
--- local sender_id, message, protocol = rednet.receive()
+-- Wait for command
+rednet.broadcast("turtle_waiting")
+local sender_id, message, protocol = rednet.receive()
 
--- -- Split message
--- local message_sections = {}
--- for word in message:gmatch("%S+") do table.insert(message_sections, word) end
--- local command = commands[message_sections[1]]
--- table.remove(message_sections, 1)
+-- Split message
+local message_sections = {}
+for word in message:gmatch("%S+") do table.insert(message_sections, word) end
+local command = commands[message_sections[1]]
+table.remove(message_sections, 1)
 
--- -- Run command
--- if command ~= nil then
---     command(message_sections)
--- end
+-- Run command
+if command ~= nil then
+    command(message_sections)
+end
 
--- -- Go to death
--- Die()
-
-GoHome()
+-- Go to death
+Die()
