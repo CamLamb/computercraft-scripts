@@ -192,9 +192,9 @@ function LeaveBase()
 end
 
 function GoHome()
-    -- Go to the Turtle return layer
-    local current_pos = vector.new(gps.locate())
-    NavigateTo(current_pos.x, current_pos.y, 61)
+    -- -- Go to the Turtle return layer
+    -- local current_pos = vector.new(gps.locate())
+    -- NavigateTo(current_pos.x, current_pos.y, 61)
 
     -- -- Navigate to base entrance
     -- NavigateTo(-1060, 515, 61)
