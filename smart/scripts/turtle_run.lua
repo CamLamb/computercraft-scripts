@@ -300,19 +300,19 @@ local commands = {
 LeaveBase()
 
 -- Wait for command
-rednet.broadcast("turtle_waiting")
-local sender_id, message, protocol = rednet.receive()
+-- rednet.broadcast("turtle_waiting")
+-- local sender_id, message, protocol = rednet.receive()
 
 -- Split message
-local message_sections = {}
-for word in message:gmatch("%S+") do table.insert(message_sections, word) end
-local command = commands[message_sections[1]]
-table.remove(message_sections, 1)
+-- local message_sections = {}
+-- for word in message:gmatch("%S+") do table.insert(message_sections, word) end
+-- local command = commands[message_sections[1]]
+-- table.remove(message_sections, 1)
 
 -- Run command
-if command ~= nil then
-    command(message_sections)
-end
+-- if command ~= nil then
+--     command(message_sections)
+-- end
 
 -- Go to death
-Die()
+-- Die()
