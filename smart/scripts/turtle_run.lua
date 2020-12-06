@@ -213,7 +213,15 @@ function Die()
     turtle.drop(14)
     turtle.drop(15)
     turtle.drop(16)
+
+    -- Request death
+    rednet.broadcast("kill_turtle")
 end
+
+-- Define commands
+local commands = {
+    navigate_to=NavigateTo,
+}
 
 -- Startup script
 
@@ -225,6 +233,22 @@ end
 
 -- Leave base
 LeaveBase()
+
+-- Wait for command
+rednet.broadcast("turtle_waiting")
+local sender_id, message, protocol = rednet.receive()
+
+-- Split message
+local message_sections = {}
+for word in message:gmatch("%S+") do table.insert(message_sections, word) end
+local command = commands[message_sections[1]]
+table.remove(message_sections, 1)
+
+-- Run command
+if command ~= nil then
+    command(message_sections)
+end
+
 
 -- Go to death
 Die()

@@ -15,10 +15,24 @@ function GetDownloadLink(type)
     return github_raw_url .. "/" .. github_path .. "/" .. github_branch .. "/" .. downloads[type]
 end
 
+function GetTurtleLink()
+    return GetDownloadLink("turtle")
+end
+
+function GetDispatcherLink()
+    return GetDownloadLink("dispatcher")
+end
+
+function TurtleWaiting()
+    print("Turtle waiting for command")
+    return read()
+end
+
 -- Define commands
 local commands = {
-    get_turtle_link=GetDownloadLink("turtle"),
-    get_dispatcher_link=GetDownloadLink("dispatcher"),
+    get_turtle_link=GetTurtleLink,
+    get_dispatcher_link=GetDispatcherLink,
+    turtle_waiting=TurtleWaiting,
 }
 
 -- Start listening to rednet for commands
@@ -32,7 +46,13 @@ while true do
     end
     print("Message: " .. message)
 
-    if commands[message] ~= nil then
-        rednet.send(sender_id, commands[message])
+    -- Split message
+    local message_sections = {}
+    for word in message:gmatch("%S+") do table.insert(message_sections, word) end
+    local command = commands[message_sections[1]]
+    table.remove(message_sections, 1)
+    -- Run command
+    if command ~= nil then
+        rednet.send(sender_id, command(message_sections))
     end
 end
