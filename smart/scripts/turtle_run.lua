@@ -230,8 +230,8 @@ local commands = {
 -- Startup script
 
 -- Get fuel
-turtle.suckDown()
 if turtle.getFuelLevel() < 1000 then
+    turtle.suckDown()
     turtle.refuel()
 end
 
